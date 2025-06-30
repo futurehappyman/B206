@@ -5,7 +5,7 @@
  *  Author     : Stepan Nikonov
  *  Created on : 2025-06-13
  *
- *  Description:
+ *  Description: MemoryManager Controls access to RAM(abstractly saying), just 4 static memory blocks.
 **************************************************************************/
 
 import java.util.ArrayList;
@@ -13,11 +13,12 @@ import java.util.ArrayList;
 public class MemoryManager {
    private ArrayList<MemoryBlock> memory; // ArrayList of objects that represent availible memory space 
    private int totalMemory;               // total memory
-
+   
+   /* initialisation of MemoryManager that controls memory allocation and deallocation */
    public MemoryManager(int totalMemory) { 
       this.totalMemory = totalMemory;     
-      this.memory = new ArrayList<>();   // ArraList of memory objects that we can allocate for processes 
-      initializeMemory();                 
+      this.memory = new ArrayList<>();   
+      initializeMemory();                 // initialise memory blocks, 4 by default, i have them static, not pages(sorry). 
    }
 
    private void initializeMemory() {
@@ -57,7 +58,8 @@ public class MemoryManager {
          }
       }
    }
-
+   
+   /* dispalys memory */ 
    public void displayMemorySummary() {
       System.out.println("\nFinal memory usage:");
       int usedMemory = 0;
@@ -69,6 +71,6 @@ public class MemoryManager {
             usedMemory += block.size;
       }
       System.out.printf("Total memory used: %d KB (%.2f%%)\n",
-            usedMemory, (double) usedMemory / totalMemory * 100);
    }
+            usedMemory, (double) usedMemory / totalMemory * 100);
 }
