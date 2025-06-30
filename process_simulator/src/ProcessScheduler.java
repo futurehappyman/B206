@@ -36,21 +36,23 @@ public class ProcessScheduler {
       System.out.println("\nSimulating execution with Round Robin...");
       /* if we have NEW or READY processes */
       while (!processes.isEmpty() || !readyQueue.isEmpty()) {
-         for (Process p : new ArrayList<>(processes)) { // we take the NEW and make them READY ; curent = 0
-            if (p.arrivalTime <= currentTime) { // adds process 1 to the with arrval 0,execution = 3 
-               readyQueue.add(p); // its added to queue
-               processes.remove(p); // removed from processes 
+         for (Process p : new ArrayList<>(processes)) { 
+            if (p.arrivalTime <= currentTime) {
+               readyQueue.add(p); 
+               processes.remove(p); 
             }
          }
-
-         if (!readyQueue.isEmpty()) { // process 1 
-            Process p = readyQueue.poll(); // taken 
-            if (memoryManager.allocateMemory(p)) { // true - memory allocated, false - not allcoated
-               int timeSlice = Math.min(quantum, p.remainingTime); // time for single process // 2
+         /* if we have process => we allocate memory, if can => calculate, take next in queue 
+            if cant alloocate memory(to bad, its static)
+         */
+         if (!readyQueue.isEmpty()) {
+            Process p = readyQueue.poll();
+            if (memoryManager.allocateMemory(p)) {
+               int timeSlice = Math.min(quantum, p.remainingTime); 
                /* some time consuming operations */ 
                System.out.printf("Process %d: Loading file '%s' (Size: %d KB) at address %d\n",
                      p.pid, p.fileName, p.fileSize, p.memoryAddress);
-               System.out.printf("Process %d: Compiling file to bytecode (%d units)...\n", // takes half of the units 
+               System.out.printf("Process %d: Compiling file to bytecode (%d units)...\n", 
                      p.pid, timeSlice / 2);
                System.out.printf("Process %d: Interpreting bytecode in JVM (%d units)...\n", 
                      p.pid, timeSlice - timeSlice / 2);
@@ -58,12 +60,12 @@ public class ProcessScheduler {
                memoryManager.displayMemorySummary();      
                /* updating remaining time for process 
                   updating currentTime for scheduler */
-               currentTime += timeSlice;  // curentTime = 2
-               p.remainingTime -= timeSlice;  // reamining = 1
+               currentTime += timeSlice;  
+               p.remainingTime -= timeSlice;  
 
                /* adjusting wait time for other process in Queue */
                for (Process other : readyQueue) {
-                  other.waitTime += timeSlice; // no one was in the ready queue 
+                  other.waitTime += timeSlice; 
                }
                /* incase some process comes in the middle of other process */
                for (Process pr : new ArrayList<>(processes)) {
