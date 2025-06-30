@@ -20,8 +20,9 @@ public class Main {
       System.out.print("Enter quantum of time for single process: ");
       int quantum = scanner.nextInt();                   // quantum of time that we can give to a single process on cpu 
       scanner.nextLine();
-
-      JavaFileExecutor executor = new JavaFileExecutor(totalMemory, quantum); // executer has the MemoryManger and scheduler that executes files along with memory manager that provides acces to ram
+      
+      /* executer has the MemoryManger and scheduler that executes files along with memory manager that provides acces to ram */
+      JavaFileExecutor executor = new JavaFileExecutor(totalMemory, quantum); 
 
       System.out.print("Enter number of files: "); 
       int n = scanner.nextInt();
@@ -37,7 +38,7 @@ public class Main {
          scanner.nextLine();
          executor.addProcess(i + 1, fileName, fileSize, arrivalTime, executionTime); // add files as NEW processes to the proceses ArrayList in the scheduler.  
       }
-      /* 4 processes initialised, proceed to execution */
+      /* proceed to execution */
       executor.executeFiles(); 
       scanner.close();
    }
