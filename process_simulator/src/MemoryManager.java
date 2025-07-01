@@ -71,6 +71,7 @@ public class MemoryManager {
             usedMemory += block.size;
       }
       System.out.printf("Total memory used: %d KB (%.2f%%)\n",
+                        usedMemory, (double) usedMemory / totalMemory * 100);
    }
-            usedMemory, (double) usedMemory / totalMemory * 100);
+            
 }
